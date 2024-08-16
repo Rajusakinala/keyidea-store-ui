@@ -25,7 +25,7 @@ export default function Dashboard() {
   const [resData, setResData] = useState();
   const [selected, setSelected] = useState(null);
 
-  const [gender, setGender] = useState("Mens");
+  const gender = useRef("Mens");
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -72,7 +72,7 @@ export default function Dashboard() {
   };
   const handleChange = async (event) => {
     console.log("event.target.value", event.target.value);
-    setGender(event.target.value);
+    gender.current = event.target.value;
 
     setPageNumber(1);
     getData2(event.target.value);
@@ -118,7 +118,7 @@ export default function Dashboard() {
     // if (loading) {
     await axios
       .get(
-        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pageNumber}&gender=${gender}`
+        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pageNumber}&gender=${gender.current}`
       )
       .then((res) => {
         // setPageNumber((pre) => pre + 1);
@@ -174,7 +174,7 @@ export default function Dashboard() {
     // if (loading) {
     await axios
       .get(
-        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${newPage.current}&gender=${gender}`
+        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${newPage.current}&gender=${gender.current}`
       )
       .then((res) => {
         // setPageNumber((pre) => pre + 1);
@@ -253,7 +253,7 @@ export default function Dashboard() {
               <Select
                 labelId="gender-label"
                 id="gender-select"
-                value={gender}
+                value={gender.current}
                 onChange={handleChange}
                 label="Gender"
               >
