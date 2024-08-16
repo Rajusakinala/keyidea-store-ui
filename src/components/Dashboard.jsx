@@ -54,9 +54,11 @@ export default function Dashboard() {
     setAnchorEl(null);
   };
   const handleChange = async (event) => {
+    console.log("event.target.value", event.target.value);
     setGender(event.target.value);
+
     setPageNumber(1);
-    getData();
+    getData2(event.target.value);
   };
 
   // styles
@@ -100,6 +102,28 @@ export default function Dashboard() {
     await axios
       .get(
         `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pageNumber}&gender=${gender}`
+      )
+      .then((res) => {
+        // setPageNumber((pre) => pre + 1);
+        setdata([data, ...res.data.data]);
+        console.log("res.data", res.data);
+        // setLoading(false);
+      })
+      .catch((err) => {
+        // setLoading(false);
+        setdata([]);
+        setPageNumber(1);
+        console.log("err", err);
+      });
+    // } else {
+    //   console.log("not loading");
+    // }
+  };
+  const getData2 = async (gen = "Mens") => {
+    // if (loading) {
+    await axios
+      .get(
+        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pageNumber}&gender=${gen}`
       )
       .then((res) => {
         // setPageNumber((pre) => pre + 1);
