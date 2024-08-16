@@ -191,9 +191,15 @@ export default function Dashboard() {
   let a = 1;
 
   const handleScroll = () => {
+    console.log(
+      "scroll",
+      window.innerHeight,
+      document.documentElement.scrollTop,
+      document.documentElement.offsetHeight
+    );
     if (
       window.innerHeight + document.documentElement.scrollTop >=
-      document.documentElement.offsetHeight - 100
+      document.documentElement.offsetHeight - 1
     )
       a = a + 1;
     if (a > 3) {
@@ -334,8 +340,7 @@ export default function Dashboard() {
               // right: "10px",
             }}
           >
-            Showing {data.length} results of page{" "}
-            {data.length > 1 ? `${newPage.current}` : "1"}
+            Showing {data.length} results of page {newPage.current}
           </Grid>
         </Grid>
       )}
