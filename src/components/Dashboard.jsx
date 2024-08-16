@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import {
   Grid,
@@ -141,36 +141,61 @@ export default function Dashboard() {
     //   console.log("not loading");
     // }
   };
+  const getDatawithPage = async (pag = 1) => {
+    console.log("pag", pag);
+    // if (loading) {
+    await axios
+      .get(
+        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pag}&gender=${gender}`
+      )
+      .then((res) => {
+        // setPageNumber((pre) => pre + 1);
+        setdata(res.data.data);
+        console.log("res.data", res.data);
+        // setLoading(false);
+      })
+      .catch((err) => {
+        // setLoading(false);
+        setdata([]);
+        setPageNumber(1);
+        console.log("err", err);
+      });
+    // } else {
+    //   console.log("not loading");
+    // }
+  };
 
   useEffect(() => {
     getData();
   }, []);
   let a = 1;
-  function handleScroll(e) {
+  const handleScroll = useCallback((e) => {
     // console.log("e", e);
     if (
       window.innerHeight + document.documentElement.scrollTop >=
       document.documentElement.offsetHeight - 100
     )
       // setTimeout(() => {
-      a = a + 1;
-    if (a > 3) {
-      a = 1;
+      //   a = a + 1;
+      // if (a > 3) {
+      // a = 1;
       console.log("page reached down, so loading more data...");
-      getData();
+    let peg = pageNumber + 1;
+    setPageNumber((pre) => pre + 1);
 
-      setPageNumber((pre) => pre + 1);
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth", // Optional: Adds smooth scrolling
-      });
-    }
+    getDatawithPage(peg);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Optional: Adds smooth scrolling
+    });
+    // }
     // }, 1000);
-  }
+  }, []);
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [handleScroll]);
 
   const marks = [
     {
