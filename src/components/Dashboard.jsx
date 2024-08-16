@@ -175,21 +175,21 @@ export default function Dashboard() {
       window.innerHeight + document.documentElement.scrollTop >=
       document.documentElement.offsetHeight - 100
     )
-      // setTimeout(() => {
-      //   a = a + 1;
-      // if (a > 3) {
-      // a = 1;
-      console.log("page reached down, so loading more data...");
-    let peg = pageNumber + 1;
-    setPageNumber((pre) => pre + 1);
+      setTimeout(() => {
+        a = a + 1;
+        if (a > 3) {
+          a = 1;
+          console.log("page reached down, so loading more data...");
+          let peg = pageNumber + 1;
+          setPageNumber((pre) => pre + 1);
 
-    getDatawithPage(peg);
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth", // Optional: Adds smooth scrolling
-    });
-    // }
-    // }, 1000);
+          getDatawithPage(peg);
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth", // Optional: Adds smooth scrolling
+          });
+        }
+      }, 1000);
   }, []);
 
   useEffect(() => {
