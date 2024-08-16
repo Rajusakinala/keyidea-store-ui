@@ -55,6 +55,7 @@ export default function Dashboard() {
   };
   const handleChange = async (event) => {
     setGender(event.target.value);
+    setPageNumber(1);
     getData();
   };
 
@@ -98,7 +99,7 @@ export default function Dashboard() {
     // if (loading) {
     await axios
       .get(
-        `http://localhost:3000/get-excel-data?pageNumber=${pageNumber}&gender=${gender}`
+        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pageNumber}&gender=${gender}`
       )
       .then((res) => {
         // setPageNumber((pre) => pre + 1);
