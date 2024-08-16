@@ -127,10 +127,11 @@ export default function Dashboard() {
     // }
   };
   const getData2 = async (gen = "Mens") => {
-    // if (loading) {
+    setPageNumber(1);
+    newPage.current = 1;
     await axios
       .get(
-        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pageNumber}&gender=${gen}`
+        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=1&gender=${gen}`
       )
       .then((res) => {
         // setPageNumber((pre) => pre + 1);
@@ -197,9 +198,10 @@ export default function Dashboard() {
     //   document.documentElement.scrollTop,
     //   document.documentElement.offsetHeight
     // );
+    // setTimeout(() => {
     if (
       window.innerHeight + document.documentElement.scrollTop >=
-      document.documentElement.offsetHeight - 20
+      document.documentElement.offsetHeight - 10
     )
       a = a + 1;
     if (a > 3) {
@@ -218,6 +220,7 @@ export default function Dashboard() {
       newPage.current += 1;
       getDatawithPage(peg);
     }
+    // }, 500);
   };
 
   useEffect(() => {
