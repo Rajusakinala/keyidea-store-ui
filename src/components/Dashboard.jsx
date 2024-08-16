@@ -150,7 +150,7 @@ export default function Dashboard() {
     // console.log("e", e);
     if (
       window.innerHeight + document.documentElement.scrollTop >=
-      document.documentElement.offsetHeight - 2
+      document.documentElement.offsetHeight - 100
     )
       // setTimeout(() => {
       a = a + 1;
