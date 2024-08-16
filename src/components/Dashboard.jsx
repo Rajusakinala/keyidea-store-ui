@@ -22,6 +22,7 @@ export default function Dashboard() {
   const [pageNumber, setPageNumber] = useState(1);
   const newPage = useRef(1);
   const [page, setPage] = useState(1);
+  const [resData, setResData] = useState();
   const [selected, setSelected] = useState(null);
 
   const [gender, setGender] = useState("Mens");
@@ -108,13 +109,15 @@ export default function Dashboard() {
       .then((res) => {
         // setPageNumber((pre) => pre + 1);
         setdata(res.data.data);
-        setPage(res.data.pageNumber);
+        setResData(res.data);
         console.log("res.data", res.data);
         // setLoading(false);
       })
       .catch((err) => {
         // setLoading(false);
         setdata([]);
+        setResData({});
+
         newPage.current = 1;
 
         console.log("err", err);
@@ -132,6 +135,8 @@ export default function Dashboard() {
       .then((res) => {
         // setPageNumber((pre) => pre + 1);
         setdata(res.data.data);
+        setResData(res.data);
+
         setPage(res.data.pageNumber);
 
         console.log("res.data", res.data);
@@ -140,6 +145,8 @@ export default function Dashboard() {
       .catch((err) => {
         // setLoading(false);
         setdata([]);
+        setResData({});
+
         newPage.current = 1;
 
         console.log("err", err);
@@ -159,6 +166,8 @@ export default function Dashboard() {
       .then((res) => {
         // setPageNumber((pre) => pre + 1);
         setdata(res.data.data);
+        setResData(res.data);
+
         setPage(res.data.pageNumber);
         console.log("res.data", res.data);
         // setLoading(false);
@@ -166,6 +175,8 @@ export default function Dashboard() {
       .catch((err) => {
         // setLoading(false);
         setdata([]);
+        setResData({});
+
         newPage.current = 1;
         console.log("err", err);
       });
@@ -323,7 +334,8 @@ export default function Dashboard() {
               // right: "10px",
             }}
           >
-            Showing {data.length} results of page {newPage.current}
+            Showing {data.length} results of page{" "}
+            {data.length > 1 ? `${newPage.current}` : "1"}
           </Grid>
         </Grid>
       )}
