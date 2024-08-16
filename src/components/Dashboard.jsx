@@ -205,7 +205,7 @@ export default function Dashboard() {
     if (a > 3) {
       window.scrollTo({
         top: 0,
-        // behavior: "smooth", // Optional: Adds smooth scrolling
+        behavior: "smooth", // Optional: Adds smooth scrolling
       });
       a = 1;
       console.log("page reached down, so loading more data...", pageNumber);
