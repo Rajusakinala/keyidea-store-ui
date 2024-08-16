@@ -365,6 +365,11 @@ export default function Dashboard() {
               </Grid>
             );
           })}
+          {data.length === 0 && (
+            <Grid container sx={{ display: "flex", justifyContent: "center" }}>
+              <Grid item>No Data</Grid>
+            </Grid>
+          )}
         </Grid>
       )}
       {selected && (
