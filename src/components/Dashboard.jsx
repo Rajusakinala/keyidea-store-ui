@@ -105,7 +105,7 @@ export default function Dashboard() {
       )
       .then((res) => {
         // setPageNumber((pre) => pre + 1);
-        setdata([data, ...res.data.data]);
+        setdata(res.data.data);
         console.log("res.data", res.data);
         // setLoading(false);
       })
@@ -127,7 +127,7 @@ export default function Dashboard() {
       )
       .then((res) => {
         // setPageNumber((pre) => pre + 1);
-        setdata([data, ...res.data.data]);
+        setdata(res.data.data);
         console.log("res.data", res.data);
         // setLoading(false);
       })
