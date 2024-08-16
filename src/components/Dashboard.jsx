@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import {
   Grid,
@@ -20,6 +20,8 @@ export default function Dashboard() {
   const [data, setdata] = useState([]);
   // const [loading, setLoading] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
+  const newPage = useRef(1);
+  const [page, setPage] = useState(1);
   const [selected, setSelected] = useState(null);
 
   const [gender, setGender] = useState("Mens");
@@ -106,6 +108,7 @@ export default function Dashboard() {
       .then((res) => {
         // setPageNumber((pre) => pre + 1);
         setdata(res.data.data);
+        setPage(res.data.pageNumber);
         console.log("res.data", res.data);
         // setLoading(false);
       })
@@ -128,6 +131,8 @@ export default function Dashboard() {
       .then((res) => {
         // setPageNumber((pre) => pre + 1);
         setdata(res.data.data);
+        setPage(res.data.pageNumber);
+
         console.log("res.data", res.data);
         // setLoading(false);
       })
@@ -143,14 +148,16 @@ export default function Dashboard() {
   };
   const getDatawithPage = async (pag = 1) => {
     console.log("pag", pag);
+    console.log("first", newPage.current);
     // if (loading) {
     await axios
       .get(
-        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pag}&gender=${gender}`
+        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${newPage.current}&gender=${gender}`
       )
       .then((res) => {
         // setPageNumber((pre) => pre + 1);
         setdata(res.data.data);
+        setPage(res.data.pageNumber);
         console.log("res.data", res.data);
         // setLoading(false);
       })
@@ -169,26 +176,29 @@ export default function Dashboard() {
     getData();
   }, []);
   let a = 1;
+
   const handleScroll = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop >=
       document.documentElement.offsetHeight - 100
     )
-      // setTimeout(() => {
       a = a + 1;
     if (a > 3) {
       a = 1;
-      console.log("page reached down, so loading more data...");
+      console.log("page reached down, so loading more data...", pageNumber);
       let peg = pageNumber + 1;
-      setPageNumber((pre) => pre + 1);
-
+      setPageNumber((prev) => prev + 1);
+      console.log(
+        "page reached down, so loading more data...bellow",
+        pageNumber
+      );
+      newPage.current += 1;
       getDatawithPage(peg);
       window.scrollTo({
         top: 0,
         behavior: "smooth", // Optional: Adds smooth scrolling
       });
     }
-    // }, 1000);
   };
 
   useEffect(() => {
