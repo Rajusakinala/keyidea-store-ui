@@ -16,14 +16,17 @@ import {
 import { ProductDetails } from "./ProductDetails";
 
 import Slider from "@mui/material/Slider";
+import { useNavigate } from "react-router-dom";
+
 export default function Dashboard() {
+  const navigate = useNavigate();
+
   const [data, setdata] = useState([]);
   // const [loading, setLoading] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const newPage = useRef(1);
 
   const [resData, setResData] = useState();
-  const [selected, setSelected] = useState(null);
 
   const gender = useRef("Mens");
   const [anchorEl, setAnchorEl] = useState(null);
@@ -119,6 +122,7 @@ export default function Dashboard() {
     await axios
       .get(
         `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pageNumber}&gender=${gender.current}`
+        // `http://localhost:4000/get-excel-data?pageNumber=${pageNumber}&gender=${gender.current}`
       )
       .then((res) => {
         // setPageNumber((pre) => pre + 1);
@@ -146,6 +150,7 @@ export default function Dashboard() {
     await axios
       .get(
         `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=1&gender=${gen}`
+        // `http://localhost:4000/get-excel-data?pageNumber=1&gender=${gen}`
       )
       .then((res) => {
         // setPageNumber((pre) => pre + 1);
@@ -174,6 +179,7 @@ export default function Dashboard() {
     await axios
       .get(
         `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${newPage.current}&gender=${gender.current}`
+        // `http://localhost:4000/get-excel-data?pageNumber=${newPage.current}&gender=${gender.current}`
       )
       .then((res) => {
         // setPageNumber((pre) => pre + 1);
@@ -202,13 +208,6 @@ export default function Dashboard() {
   let a = 1;
 
   const handleScroll = () => {
-    // console.log(
-    //   "scroll",
-    //   window.innerHeight,
-    //   document.documentElement.scrollTop,
-    //   document.documentElement.offsetHeight
-    // );
-    // setTimeout(() => {
     if (
       window.innerHeight + document.documentElement.scrollTop >=
       document.documentElement.offsetHeight - 10
@@ -218,7 +217,7 @@ export default function Dashboard() {
     if (a === 3) {
       window.scrollTo({
         top: 0,
-        behavior: "instant", // Optional: Adds smooth scrolling,
+        behavior: "instant", //smooth,
       });
       a = 1;
       console.log(
@@ -230,7 +229,6 @@ export default function Dashboard() {
       newPage.current += 1;
       getDatawithPage();
     }
-    // }, 500);
   };
 
   useEffect(() => {
@@ -240,162 +238,157 @@ export default function Dashboard() {
 
   return (
     <div>
-      {!selected && (
-        <Grid container spacing={2} style={{ marginBottom: "10px" }}>
-          <Grid item>
-            <FormControl
-              fullWidth
-              variant="outlined"
-              style={{ width: "100%", marginTop: "20px" }}
+      <Grid container spacing={2} style={{ marginBottom: "10px" }}>
+        <Grid item>
+          <FormControl
+            fullWidth
+            variant="outlined"
+            style={{ width: "100%", marginTop: "20px" }}
+          >
+            <InputLabel id="gender-label">Gender</InputLabel>
+            <Select
+              labelId="gender-label"
+              id="gender-select"
+              value={gender.current}
+              onChange={handleChange}
+              label="Gender"
             >
-              <InputLabel id="gender-label">Gender</InputLabel>
-              <Select
-                labelId="gender-label"
-                id="gender-select"
-                value={gender.current}
-                onChange={handleChange}
-                label="Gender"
-              >
-                <MenuItem value="Mens">Mens</MenuItem>
-                <MenuItem value="Womens">Womens</MenuItem>
-                <MenuItem value="Other">Other</MenuItem>
-              </Select>
-            </FormControl>{" "}
-          </Grid>
-          <Grid item>
-            <FormControl sx={{ width: 300, marginTop: "20px" }}>
-              <InputLabel id="demo-multiple-checkbox-label">Styles</InputLabel>
-              <Select
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                multiple
-                value={styles}
-                onChange={handleChangestyle}
-                input={<OutlinedInput label="Tag" />}
-                renderValue={(selected) => selected.join(", ")}
-                MenuProps={MenuProps}
-              >
-                {styleNames.map((name) => (
-                  <MenuItem key={name} value={name}>
-                    <Checkbox checked={styles.indexOf(name) > -1} />
-                    <ListItemText primary={name} />
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item sx={{ mt: "23px" }}>
-            <Button
-              size="large"
-              variant="outlined"
-              onClick={handleClick2}
-              aria-controls={open ? "basic-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-              id="basic-button"
-            >
-              {" "}
-              Price filter
-            </Button>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
-              }}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-            >
-              <Box sx={{ width: 300, p: 3, py: 5 }}>
-                <Slider
-                  getAriaLabel={() => "Minimum distance"}
-                  value={value1}
-                  onChange={handleChange1}
-                  // valueLabelDisplay="auto"
-                  getAriaValueText={valuetext}
-                  disableSwap
-                  marks={marks}
-                />
-              </Box>
-            </Menu>
-          </Grid>
+              <MenuItem value="Mens">Mens</MenuItem>
+              <MenuItem value="Womens">Womens</MenuItem>
+              <MenuItem value="Other">Other</MenuItem>
+            </Select>
+          </FormControl>{" "}
         </Grid>
-      )}
-      {!selected && (
-        <Grid
-          container
-          sx={{
-            margin: "10px",
-            display: "flex",
-            justifyContent: "end",
-          }}
-        >
-          <Grid
-            item
-            sx={{
-              margin: "10px",
-              // position: "absolute",
-              // right: "10px",
+        <Grid item>
+          <FormControl sx={{ width: 300, marginTop: "20px" }}>
+            <InputLabel id="demo-multiple-checkbox-label">Styles</InputLabel>
+            <Select
+              labelId="demo-multiple-checkbox-label"
+              id="demo-multiple-checkbox"
+              multiple
+              value={styles}
+              onChange={handleChangestyle}
+              input={<OutlinedInput label="Tag" />}
+              renderValue={(selected) => selected.join(", ")}
+              MenuProps={MenuProps}
+            >
+              {styleNames.map((name) => (
+                <MenuItem key={name} value={name}>
+                  <Checkbox checked={styles.indexOf(name) > -1} />
+                  <ListItemText primary={name} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item sx={{ mt: "23px" }}>
+          <Button
+            size="large"
+            variant="outlined"
+            onClick={handleClick2}
+            aria-controls={open ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            id="basic-button"
+          >
+            {" "}
+            Price filter
+          </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "left",
             }}
           >
-            Showing {data.length} results of page {newPage.current}
-          </Grid>
+            <Box sx={{ width: 300, p: 3, py: 5 }}>
+              <Slider
+                getAriaLabel={() => "Minimum distance"}
+                value={value1}
+                onChange={handleChange1}
+                // valueLabelDisplay="auto"
+                getAriaValueText={valuetext}
+                disableSwap
+                marks={marks}
+              />
+            </Box>
+          </Menu>
         </Grid>
-      )}
-      {!selected && (
+      </Grid>
+
+      <Grid
+        container
+        sx={{
+          margin: "10px",
+          display: "flex",
+          justifyContent: "end",
+        }}
+      >
         <Grid
-          container
-          spacing={2}
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "start",
+          item
+          sx={{
+            margin: "10px",
+            // position: "absolute",
+            // right: "10px",
           }}
         >
-          {data.map((prod, ind) => {
-            return (
-              <Grid item key={ind} xs={12} sm={6} md={4} lg={3}>
-                <div
-                  className="productCard"
-                  onClick={() => {
-                    setSelected(prod);
-                  }}
-                  style={{
-                    maxHeight: "100%",
-                    padding: "10px",
-                  }}
-                >
-                  <img
-                    // width="300px"
-                    style={{
-                      maxWidth: "100%",
-
-                      display: "block",
-                    }}
-                    src="https://ion.bluenile.com/sets/Jewelry-bn/194489/NOP/Images/LS_stage_0.jpg"
-                    alt="image_loading"
-                  />
-                  <h5>{prod.prod_name}</h5>
-                  <h6>{prod.prod_type}</h6>
-                  <h6>Price : {prod.attr_14k_regular}</h6>
-                </div>
-              </Grid>
-            );
-          })}
-          {data.length === 0 && (
-            <Grid container sx={{ display: "flex", justifyContent: "center" }}>
-              <Grid item>No Data</Grid>
-            </Grid>
-          )}
+          Showing {data.length} results of page {newPage.current}
         </Grid>
-      )}
-      {selected && (
-        <ProductDetails selected={selected} setSelected={setSelected} />
-      )}
+      </Grid>
+
+      <Grid
+        container
+        spacing={2}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "start",
+        }}
+      >
+        {data.map((prod, ind) => {
+          return (
+            <Grid item key={ind} xs={12} sm={6} md={4} lg={3}>
+              <div
+                className="productCard"
+                onClick={() => {
+                  navigate("/product-details", {
+                    state: prod,
+                  });
+                }}
+                style={{
+                  maxHeight: "100%",
+                  padding: "10px",
+                }}
+              >
+                <img
+                  // width="300px"
+                  style={{
+                    maxWidth: "100%",
+
+                    display: "block",
+                  }}
+                  src="https://ion.bluenile.com/sets/Jewelry-bn/194489/NOP/Images/LS_stage_0.jpg"
+                  alt="image_loading"
+                />
+                <h5>{prod.prod_name}</h5>
+                <h6>{prod.prod_type}</h6>
+                <h6>Price : {prod.attr_14k_regular}</h6>
+              </div>
+            </Grid>
+          );
+        })}
+        {data.length === 0 && (
+          <Grid container sx={{ display: "flex", justifyContent: "center" }}>
+            <Grid item>No Data</Grid>
+          </Grid>
+        )}
+      </Grid>
     </div>
   );
 }
