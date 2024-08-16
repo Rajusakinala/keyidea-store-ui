@@ -169,8 +169,7 @@ export default function Dashboard() {
     getData();
   }, []);
   let a = 1;
-  const handleScroll = useCallback((e) => {
-    // console.log("e", e);
+  const handleScroll = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop >=
       document.documentElement.offsetHeight - 100
@@ -190,12 +189,12 @@ export default function Dashboard() {
           });
         }
       }, 1000);
-  }, []);
+  };
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
+  }, []);
 
   const marks = [
     {
