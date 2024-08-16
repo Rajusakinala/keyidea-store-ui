@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import {
   Grid,
@@ -13,7 +13,6 @@ import {
   Checkbox,
   ListItemText,
 } from "@mui/material";
-import { ProductDetails } from "./ProductDetails";
 
 import Slider from "@mui/material/Slider";
 import { useNavigate } from "react-router-dom";
@@ -23,12 +22,12 @@ export default function Dashboard() {
 
   const [data, setdata] = useState([]);
   // const [loading, setLoading] = useState(false);
-  const [pageNumber, setPageNumber] = useState(1);
-  const newPage = useRef(1);
+  const pageRef = useRef(1);
 
   const [resData, setResData] = useState();
 
   const gender = useRef("Mens");
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -73,12 +72,12 @@ export default function Dashboard() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleChange = async (event) => {
+  const handleChangeGender = async (event) => {
     console.log("event.target.value", event.target.value);
+    pageRef.current = 1;
     gender.current = event.target.value;
 
-    setPageNumber(1);
-    getData2(event.target.value);
+    getData();
   };
 
   // styles
@@ -106,7 +105,6 @@ export default function Dashboard() {
   };
 
   const styleNames = [
-    "all",
     "Blue Diamond",
     "Diamond",
     "Tantalum",
@@ -121,11 +119,10 @@ export default function Dashboard() {
     // if (loading) {
     await axios
       .get(
-        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pageNumber}&gender=${gender.current}`
+        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pageRef.current}&gender=${gender.current}`
         // `http://localhost:4000/get-excel-data?pageNumber=${pageNumber}&gender=${gender.current}`
       )
       .then((res) => {
-        // setPageNumber((pre) => pre + 1);
         setdata(res.data.data);
         setResData(res.data);
         console.log("res.data", res.data);
@@ -136,70 +133,10 @@ export default function Dashboard() {
         setdata([]);
         setResData({});
 
-        newPage.current = 1;
+        pageRef.current = 1;
 
         console.log("err", err);
       });
-    // } else {
-    //   console.log("not loading");
-    // }
-  };
-  const getData2 = async (gen = "Mens") => {
-    setPageNumber(1);
-    newPage.current = 1;
-    await axios
-      .get(
-        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=1&gender=${gen}`
-        // `http://localhost:4000/get-excel-data?pageNumber=1&gender=${gen}`
-      )
-      .then((res) => {
-        // setPageNumber((pre) => pre + 1);
-        setdata(res.data.data);
-        setResData(res.data);
-
-        console.log("res.data", res.data);
-        // setLoading(false);
-      })
-      .catch((err) => {
-        // setLoading(false);
-        setdata([]);
-        setResData({});
-
-        newPage.current = 1;
-
-        console.log("err", err);
-      });
-    // } else {
-    //   console.log("not loading");
-    // }
-  };
-  const getDatawithPage = async () => {
-    console.log("first", newPage.current);
-    // if (loading) {
-    await axios
-      .get(
-        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${newPage.current}&gender=${gender.current}`
-        // `http://localhost:4000/get-excel-data?pageNumber=${newPage.current}&gender=${gender.current}`
-      )
-      .then((res) => {
-        // setPageNumber((pre) => pre + 1);
-        setdata(res.data.data);
-        setResData(res.data);
-
-        console.log("res.data", res.data);
-        // setLoading(false);
-      })
-      .catch((err) => {
-        // setLoading(false);
-        setdata([]);
-        setResData({});
-
-        newPage.current = 1;
-        console.log("err", err);
-      });
-    // } else {
-    //   console.log("not loading");
-    // }
   };
 
   useEffect(() => {
@@ -222,12 +159,11 @@ export default function Dashboard() {
       a = 1;
       console.log(
         "page reached down, so loading more data...",
-        newPage.current
+        pageRef.current
       );
 
-      setPageNumber((prev) => prev + 1);
-      newPage.current += 1;
-      getDatawithPage();
+      pageRef.current += 1;
+      getData();
     }
   };
 
@@ -250,7 +186,7 @@ export default function Dashboard() {
               labelId="gender-label"
               id="gender-select"
               value={gender.current}
-              onChange={handleChange}
+              onChange={handleChangeGender}
               label="Gender"
             >
               <MenuItem value="Mens">Mens</MenuItem>
@@ -338,7 +274,7 @@ export default function Dashboard() {
             // right: "10px",
           }}
         >
-          Showing {data.length} results of page {newPage.current}
+          Showing {data.length} results of page {pageRef.current}
         </Grid>
       </Grid>
 
