@@ -73,15 +73,12 @@ export default function Dashboard() {
     setAnchorEl(null);
   };
   const handleChangeGender = async (event) => {
-    console.log("event.target.value", event.target.value);
     pageRef.current = 1;
     gender.current = event.target.value;
-
     getData();
   };
 
   // styles
-
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -116,7 +113,6 @@ export default function Dashboard() {
   ];
 
   const getData = async () => {
-    // if (loading) {
     await axios
       .get(
         `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pageRef.current}&gender=${gender.current}`
@@ -142,6 +138,7 @@ export default function Dashboard() {
   useEffect(() => {
     getData();
   }, []);
+
   let a = 1;
 
   const handleScroll = () => {
