@@ -21,7 +21,7 @@ export default function Dashboard() {
   // const [loading, setLoading] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const newPage = useRef(1);
-  const [page, setPage] = useState(1);
+
   const [resData, setResData] = useState();
   const [selected, setSelected] = useState(null);
 
@@ -31,6 +31,7 @@ export default function Dashboard() {
 
   // price
   function valuetext(value) {
+    console.log("value", value);
     return `${value}`;
   }
 
@@ -39,6 +40,7 @@ export default function Dashboard() {
   const [value1, setValue1] = useState([0, 100]);
 
   const handleChange1 = (event, newValue, activeThumb) => {
+    console.log("event, newValue, activeThumb", event, newValue, activeThumb);
     if (!Array.isArray(newValue)) {
       return;
     }
@@ -49,6 +51,18 @@ export default function Dashboard() {
       setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
     }
   };
+
+  const marks = [
+    {
+      value: 0,
+      label: "$0",
+    },
+
+    {
+      value: 100,
+      label: "$1000",
+    },
+  ];
 
   const handleClick2 = (event) => {
     setAnchorEl(event.currentTarget);
@@ -138,8 +152,6 @@ export default function Dashboard() {
         setdata(res.data.data);
         setResData(res.data);
 
-        setPage(res.data.pageNumber);
-
         console.log("res.data", res.data);
         // setLoading(false);
       })
@@ -169,7 +181,6 @@ export default function Dashboard() {
         setdata(res.data.data);
         setResData(res.data);
 
-        setPage(res.data.pageNumber);
         console.log("res.data", res.data);
         // setLoading(false);
       })
@@ -228,17 +239,6 @@ export default function Dashboard() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const marks = [
-    {
-      value: 0,
-      label: "$0",
-    },
-
-    {
-      value: 100,
-      label: "$1000",
-    },
-  ];
   return (
     <div>
       {!selected && (
@@ -316,7 +316,7 @@ export default function Dashboard() {
                   getAriaLabel={() => "Minimum distance"}
                   value={value1}
                   onChange={handleChange1}
-                  valueLabelDisplay="auto"
+                  // valueLabelDisplay="auto"
                   getAriaValueText={valuetext}
                   disableSwap
                   marks={marks}
