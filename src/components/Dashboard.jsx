@@ -168,8 +168,7 @@ export default function Dashboard() {
     //   console.log("not loading");
     // }
   };
-  const getDatawithPage = async (pag = 1) => {
-    console.log("pag", pag);
+  const getDatawithPage = async () => {
     console.log("first", newPage.current);
     // if (loading) {
     await axios
@@ -215,21 +214,21 @@ export default function Dashboard() {
       document.documentElement.offsetHeight - 10
     )
       a = a + 1;
-    if (a > 3) {
+    console.log("a", a);
+    if (a === 3) {
       window.scrollTo({
         top: 0,
-        behavior: "smooth", // Optional: Adds smooth scrolling
+        behavior: "instant", // Optional: Adds smooth scrolling,
       });
       a = 1;
-      console.log("page reached down, so loading more data...", pageNumber);
-      let peg = pageNumber + 1;
-      setPageNumber((prev) => prev + 1);
       console.log(
-        "page reached down, so loading more data...bellow",
-        pageNumber
+        "page reached down, so loading more data...",
+        newPage.current
       );
+
+      setPageNumber((prev) => prev + 1);
       newPage.current += 1;
-      getDatawithPage(peg);
+      getDatawithPage();
     }
     // }, 500);
   };
