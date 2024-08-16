@@ -115,7 +115,8 @@ export default function Dashboard() {
       .catch((err) => {
         // setLoading(false);
         setdata([]);
-        setPageNumber(1);
+        newPage.current = 1;
+
         console.log("err", err);
       });
     // } else {
@@ -139,7 +140,8 @@ export default function Dashboard() {
       .catch((err) => {
         // setLoading(false);
         setdata([]);
-        setPageNumber(1);
+        newPage.current = 1;
+
         console.log("err", err);
       });
     // } else {
@@ -164,7 +166,7 @@ export default function Dashboard() {
       .catch((err) => {
         // setLoading(false);
         setdata([]);
-        setPageNumber(1);
+        newPage.current = 1;
         console.log("err", err);
       });
     // } else {
@@ -321,7 +323,7 @@ export default function Dashboard() {
               // right: "10px",
             }}
           >
-            Showing {data.length} results of page {pageNumber}
+            Showing {data.length} results of page {newPage.current}
           </Grid>
         </Grid>
       )}
