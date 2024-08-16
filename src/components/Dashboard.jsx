@@ -235,8 +235,8 @@ export default function Dashboard() {
                 onChange={handleChange}
                 label="Gender"
               >
-                <MenuItem value="Mens">Male</MenuItem>
-                <MenuItem value="Womens">Female</MenuItem>
+                <MenuItem value="Mens">Mens</MenuItem>
+                <MenuItem value="Womens">Womens</MenuItem>
                 <MenuItem value="Other">Other</MenuItem>
               </Select>
             </FormControl>{" "}
