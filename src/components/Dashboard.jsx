@@ -191,12 +191,12 @@ export default function Dashboard() {
   let a = 1;
 
   const handleScroll = () => {
-    console.log(
-      "scroll",
-      window.innerHeight,
-      document.documentElement.scrollTop,
-      document.documentElement.offsetHeight
-    );
+    // console.log(
+    //   "scroll",
+    //   window.innerHeight,
+    //   document.documentElement.scrollTop,
+    //   document.documentElement.offsetHeight
+    // );
     if (
       window.innerHeight + document.documentElement.scrollTop >=
       document.documentElement.offsetHeight - 20
