@@ -199,10 +199,14 @@ export default function Dashboard() {
     );
     if (
       window.innerHeight + document.documentElement.scrollTop >=
-      document.documentElement.offsetHeight - 1
+      document.documentElement.offsetHeight - 20
     )
       a = a + 1;
     if (a > 3) {
+      window.scrollTo({
+        top: 0,
+        // behavior: "smooth", // Optional: Adds smooth scrolling
+      });
       a = 1;
       console.log("page reached down, so loading more data...", pageNumber);
       let peg = pageNumber + 1;
@@ -213,10 +217,6 @@ export default function Dashboard() {
       );
       newPage.current += 1;
       getDatawithPage(peg);
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth", // Optional: Adds smooth scrolling
-      });
     }
   };
 
