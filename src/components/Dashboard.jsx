@@ -19,21 +19,16 @@ import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const navigate = useNavigate();
-
   const [data, setdata] = useState([]);
-  // const [loading, setLoading] = useState(false);
+  const gender = useRef("Mens");
   const pageRef = useRef(1);
   const dataForRef = useRef("next");
   const priceRef = useRef([0, 10000]);
 
-  const [resData, setResData] = useState();
-
-  const gender = useRef("Mens");
-
+  // price
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  // price
   function valuetext(value) {
     console.log("value", value);
     return `${value}`;
@@ -128,18 +123,10 @@ export default function Dashboard() {
       )
       .then((res) => {
         setdata(res.data.data);
-
-        setResData(res.data);
-
-        // setLoading(false);
       })
       .catch((err) => {
-        // setLoading(false);
         setdata([]);
-        setResData({});
-
         pageRef.current = 1;
-
         console.log("err", err);
       });
   };
@@ -303,8 +290,6 @@ export default function Dashboard() {
           item
           sx={{
             margin: "15px",
-            // position: "absolute",
-            // right: "10px",
           }}
         >
           Showing {data.length} results of page {pageRef.current}
@@ -336,7 +321,6 @@ export default function Dashboard() {
                 }}
               >
                 <img
-                  // width="300px"
                   style={{
                     maxWidth: "100%",
 
