@@ -120,9 +120,9 @@ export default function Dashboard() {
         // `http://localhost:4000/get-excel-data?pageNumber=${pageRef.current}&gender=${gender.current}`
       )
       .then((res) => {
-        // setdata(res.data.data);
-        console.log("data@", data, res.data.data);
-        setdata([...data, ...res.data.data]);
+        setdata(res.data.data);
+        // console.log("data@", data, res.data.data);
+        // setdata([...data, ...res.data.data]);
         // if (pageRef.current == 1) {
         //   setdata(res.data.data);
         // } else if (dataForRef.current == "next") {
@@ -292,6 +292,8 @@ export default function Dashboard() {
           margin: "10px",
           display: "flex",
           justifyContent: "end",
+          position: "sticky",
+          top: "20px",
         }}
       >
         <Grid
