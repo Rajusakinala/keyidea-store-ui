@@ -121,10 +121,10 @@ export default function Dashboard() {
     console.log("priceRef", priceRef.current);
     await axios
       .post(
-        // `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pageRef.current}&gender=${gender.current}`,
-        // { price: priceRef.current }
-        `http://localhost:4000/get-excel-data?pageNumber=${pageRef.current}&gender=${gender.current}`,
+        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pageRef.current}&gender=${gender.current}`,
         { price: priceRef.current }
+        // `http://localhost:4000/get-excel-data?pageNumber=${pageRef.current}&gender=${gender.current}`,
+        // { price: priceRef.current }
       )
       .then((res) => {
         setdata(res.data.data);
