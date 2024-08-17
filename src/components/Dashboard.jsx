@@ -128,24 +128,6 @@ export default function Dashboard() {
       )
       .then((res) => {
         setdata(res.data.data);
-        // console.log("data@", data, res.data.data);
-        // setdata([...data, ...res.data.data]);
-        // if (pageRef.current == 1) {
-        //   setdata(res.data.data);
-        // } else if (dataForRef.current == "next") {
-        //   setdata(
-        //     [...data, ...res.data.data].slice(
-        //       -(data.length + res.data.data.length)
-        //     )
-        //   );
-        // } else if (dataForRef.current == "pre") {
-        //   setdata(
-        //     [...res.data.data, ...data].slice(
-        //       0,
-        //       data.length + res.data.data.length
-        //     )
-        //   );
-        // }
 
         setResData(res.data);
 
