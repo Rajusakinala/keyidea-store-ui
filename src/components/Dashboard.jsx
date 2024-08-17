@@ -272,13 +272,13 @@ export default function Dashboard() {
             }}
           >
             <Box sx={{ width: 300, p: 3, py: 5 }}>
-              <Button
+              {/* <Button
                 onClick={() => {
                   navigate("/pushn");
                 }}
               >
                 Push
-              </Button>
+              </Button> */}
               <Slider
                 getAriaLabel={() => "Minimum distance"}
                 value={value1}
