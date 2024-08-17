@@ -24,6 +24,7 @@ export default function Dashboard() {
   // const [loading, setLoading] = useState(false);
   const pageRef = useRef(1);
   const dataForRef = useRef("next");
+  const priceRef = useRef([0, 10000]);
 
   const [resData, setResData] = useState();
 
@@ -43,7 +44,8 @@ export default function Dashboard() {
   const [value1, setValue1] = useState([0, 100]);
 
   const handleChange1 = (event, newValue, activeThumb) => {
-    console.log("event, newValue, activeThumb", event, newValue, activeThumb);
+    console.log("newValue", newValue);
+    priceRef.current = [newValue[0] * 100, newValue[1] * 100];
     if (!Array.isArray(newValue)) {
       return;
     }
@@ -114,6 +116,7 @@ export default function Dashboard() {
   ];
 
   const getData = async () => {
+    console.log("priceRef", priceRef.current);
     await axios
       .get(
         `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pageRef.current}&gender=${gender.current}`
@@ -283,6 +286,19 @@ export default function Dashboard() {
               />
             </Box>
           </Menu>
+          <Button
+            size="large"
+            sx={{ mx: 2 }}
+            variant="contained"
+            onClick={() => {
+              priceRef.current = [0, 10000];
+              setValue1([0, 100]);
+              pageRef.current = 1;
+              gender.current = "Mens";
+            }}
+          >
+            Reset
+          </Button>
         </Grid>
       </Grid>
 
@@ -299,7 +315,7 @@ export default function Dashboard() {
         <Grid
           item
           sx={{
-            margin: "10px",
+            margin: "15px",
             // position: "absolute",
             // right: "10px",
           }}
