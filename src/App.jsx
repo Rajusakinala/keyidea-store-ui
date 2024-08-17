@@ -14,6 +14,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/product-details" element={<Details />} />
           <Route path="/pushn" element={<PushNotification />} />
+          <Route path="/push-notification" element={<PushNotification />} />
         </Routes>
       </BrowserRouter>
     </div>
