@@ -23,6 +23,7 @@ export default function Dashboard() {
   const [data, setdata] = useState([]);
   // const [loading, setLoading] = useState(false);
   const pageRef = useRef(1);
+  const dataForRef = useRef("next");
 
   const [resData, setResData] = useState();
 
@@ -116,12 +117,31 @@ export default function Dashboard() {
     await axios
       .get(
         `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pageRef.current}&gender=${gender.current}`
-        // `http://localhost:4000/get-excel-data?pageNumber=${pageNumber}&gender=${gender.current}`
+        // `http://localhost:4000/get-excel-data?pageNumber=${pageRef.current}&gender=${gender.current}`
       )
       .then((res) => {
-        setdata(res.data.data);
+        // setdata(res.data.data);
+        console.log("data@", data, res.data.data);
+        setdata([...data, ...res.data.data]);
+        // if (pageRef.current == 1) {
+        //   setdata(res.data.data);
+        // } else if (dataForRef.current == "next") {
+        //   setdata(
+        //     [...data, ...res.data.data].slice(
+        //       -(data.length + res.data.data.length)
+        //     )
+        //   );
+        // } else if (dataForRef.current == "pre") {
+        //   setdata(
+        //     [...res.data.data, ...data].slice(
+        //       0,
+        //       data.length + res.data.data.length
+        //     )
+        //   );
+        // }
+
         setResData(res.data);
-        console.log("res.data", res.data);
+
         // setLoading(false);
       })
       .catch((err) => {
@@ -140,27 +160,38 @@ export default function Dashboard() {
   }, []);
 
   let a = 1;
-
   const handleScroll = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop >=
       document.documentElement.offsetHeight - 10
-    )
+    ) {
       a = a + 1;
-    console.log("a", a);
-    if (a === 3) {
-      window.scrollTo({
-        top: 0,
-        behavior: "instant", //smooth,
-      });
-      a = 1;
-      console.log(
-        "page reached down, so loading more data...",
-        pageRef.current
-      );
+      console.log("a", a);
+      if (a === 3) {
+        dataForRef.current = "next";
+        window.scrollTo({
+          top: 50,
+          behavior: "instant", //smooth,
+        });
+        a = 1;
+        console.log(
+          "page reached down, so loading more data...",
+          pageRef.current
+        );
 
-      pageRef.current += 1;
+        pageRef.current += 1;
+        getData();
+      }
+    } else if (
+      (document.documentElement.scrollTop <= 0) &
+      (pageRef.current !== 1)
+    ) {
+      console.log("top reach Api call");
+      dataForRef.current = "pre";
+      pageRef.current -= 1;
       getData();
+    } else {
+      console.log("else");
     }
   };
 
@@ -309,6 +340,7 @@ export default function Dashboard() {
                   src="https://ion.bluenile.com/sets/Jewelry-bn/194489/NOP/Images/LS_stage_0.jpg"
                   alt="image_loading"
                 />
+                <h5>id : {prod.prod_sku}</h5>
                 <h5>{prod.prod_name}</h5>
                 <h6>{prod.prod_type}</h6>
                 <h6>Price : {prod.attr_14k_regular}</h6>
