@@ -177,7 +177,7 @@ export default function Dashboard() {
       if (a === 3) {
         dataForRef.current = "next";
         window.scrollTo({
-          top: 50,
+          top: 80,
           behavior: "instant", //smooth,
         });
         a = 1;
