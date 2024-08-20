@@ -89,16 +89,18 @@ export default function Dashboard() {
       },
     },
   };
-
-  const [styles, setStyles] = useState([]);
+  // const [styles, setStyles] = useState([]);
+  const styleRef = useRef([]);
+  console.log("styles", styleRef.current);
   const handleChangestyle = (event) => {
     const {
       target: { value },
     } = event;
-    setStyles(
+    pageRef.current = 1;
+    styleRef.current =
       // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+      typeof value === "string" ? value.split(",") : value;
+    getData();
   };
 
   const styleNames = [
@@ -116,10 +118,10 @@ export default function Dashboard() {
     console.log("priceRef", priceRef.current);
     await axios
       .post(
-        `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pageRef.current}&gender=${gender.current}`,
-        { price: priceRef.current }
-        // `http://localhost:4000/get-excel-data?pageNumber=${pageRef.current}&gender=${gender.current}`,
-        // { price: priceRef.current }
+        // `https://key-idea-store-api.vercel.app/get-excel-data?pageNumber=${pageRef.current}&gender=${gender.current}`,
+        // { price: priceRef.current, styles: styleRef.current }
+        `http://localhost:4000/get-excel-data?pageNumber=${pageRef.current}&gender=${gender.current}`,
+        { price: priceRef.current, styles: styleRef.current }
       )
       .then((res) => {
         setdata(res.data.data);
@@ -206,7 +208,7 @@ export default function Dashboard() {
               labelId="demo-multiple-checkbox-label"
               id="demo-multiple-checkbox"
               multiple
-              value={styles}
+              value={styleRef.current}
               onChange={handleChangestyle}
               input={<OutlinedInput label="Tag" />}
               renderValue={(selected) => selected.join(", ")}
@@ -214,7 +216,7 @@ export default function Dashboard() {
             >
               {styleNames.map((name) => (
                 <MenuItem key={name} value={name}>
-                  <Checkbox checked={styles.indexOf(name) > -1} />
+                  <Checkbox checked={styleRef.current.indexOf(name) > -1} />
                   <ListItemText primary={name} />
                 </MenuItem>
               ))}
